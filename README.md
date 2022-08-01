@@ -2,9 +2,11 @@
 This is a online information WebUI with rest api based on php showing information from Victron Cerbo GX via Modus TCP
 
 ## WebUi
+index.php
 ![alt text](https://github.com/datjan/php-victron-cerbogx-modbus-tcp/blob/main/img_webpage.png?raw=true)
 
 ## Rest Json
+reload_modbus.php
 ![alt text](https://github.com/datjan/php-victron-cerbogx-modbus-tcp/blob/main/img_restapi.png?raw=true)
 
 ## Configuration Victron Cerbo GX
