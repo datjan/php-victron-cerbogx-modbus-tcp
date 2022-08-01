@@ -84,7 +84,7 @@ $setup = '
 Example of Victron "CCGX-Modbus-TCP-register-list" documentation file:
 ![alt text](https://github.com/datjan/php-victron-cerbogx-modbus-tcp/blob/main/img_modbus.png?raw=true)
 
-## Actual Supported Data Types
+Actual Supported "data_type":
 ```
 - string
 - int16
@@ -93,3 +93,7 @@ Example of Victron "CCGX-Modbus-TCP-register-list" documentation file:
 - uint32
 ```
 
+Victron Remote Console "slave":
+```
+Settings -> Services -> Modbus TCP -> Existing Services
+```
