@@ -7,7 +7,11 @@ This is a online information WebUI with rest api based on php showing informatio
 ## Rest Json
 ![alt text](https://github.com/datjan/php-victron-cerbogx-modbus-tcp/blob/main/img_restapi.png?raw=true)
 
-## Configuration
+## Configuration Victron Cerbo GX
+Activate Modbus within the Victron Remote Console.
+- Settings -> Services -> Modbus TCP -> Enabled
+
+## Configuration PHP
 
 Within the following file you can configure your modbus connection:
 - setup_modbus.php
