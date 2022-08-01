@@ -20,7 +20,7 @@ Within the following file you can configure your modbus connection:
 
 
 Example Configuration
-- url = Url from the Victron Cerbo GX device
+- url = ip from the Victron Cerbo GX device
 - meters information can be found in Victron "CCGX-Modbus-TCP-register-list" Excel-Document
 ```
 $setup = '
