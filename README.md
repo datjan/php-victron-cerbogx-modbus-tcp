@@ -80,3 +80,13 @@ $setup = '
 	]
 }]';
 ```
+
+## Actual Supported Data Types
+```
+- string
+- int16
+- uint16
+- int32
+- uint32
+```
+
