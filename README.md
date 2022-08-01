@@ -81,6 +81,9 @@ $setup = '
 }]';
 ```
 
+Example of Victron "CCGX-Modbus-TCP-register-list" documentation file:
+![alt text](https://github.com/datjan/php-victron-cerbogx-modbus-tcp/blob/main/img_modbus.png?raw=true)
+
 ## Actual Supported Data Types
 ```
 - string
