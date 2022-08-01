@@ -47,11 +47,11 @@ foreach($json_setup as $setup) // each modbus api
 		}
 		
 
-		if ($data_type="int16") { $values = array_chunk($recData, 2); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
-		if ($data_type="uint16") { $values = array_chunk($recData, 2); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
-		if ($data_type="int32") { $values = array_chunk($recData, 4); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
-		if ($data_type="uint32") { $values = array_chunk($recData, 4); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
-		if ($data_type="string") { $scaled_value = PhpType::bytes2string($recData); } 
+		if ($data_type=="int16") { $values = array_chunk($recData, 2); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
+		if ($data_type=="uint16") { $values = array_chunk($recData, 2); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
+		if ($data_type=="int32") { $values = array_chunk($recData, 4); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
+		if ($data_type=="uint32") { $values = array_chunk($recData, 4); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
+		if ($data_type=="string") { $scaled_value = PhpType::bytes2string($recData); } 
 
 		//echo '<br>'.$name.': '.$scaled_value.' '.$unit_of_measurement.'<br>';
 
