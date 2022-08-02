@@ -20,7 +20,9 @@ foreach($json_setup as $setup) // each modbus api
 	$modbus_name = $setup['name'];
 	$modbus_url = $setup['url'];
 	$modbus_protocol = $setup['protocol'];
-	$response_meters = array();
+	$modbus_success = true;
+	$modbus_error = '';
+	$modbus_meters = array();
 
 	 // Modbus master
 	 $modbus = new ModbusMaster($modbus_url, $modbus_protocol);
@@ -31,36 +33,41 @@ foreach($json_setup as $setup) // each modbus api
 		$name = $meter['name'];
 		$unit_of_measurement = $meter['unit_of_measurement'];
 		$data_type = $meter['data_type'];
-		$slave = $meter['slave'];
+		$unit_id = $meter['unit_id'];
 		$address = $meter['address'];
 		$scale = $meter['scale'];
 
 		try {
 			// FC 3
-			$recData = $modbus->readMultipleRegisters($slave, $address, 1);
+			$recData = $modbus->readMultipleRegisters($unit_id, $address, 1);
+
+			if ($data_type=="int16") { $values = array_chunk($recData, 2); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
+			if ($data_type=="uint16") { $values = array_chunk($recData, 2); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
+			if ($data_type=="int32") { $values = array_chunk($recData, 4); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
+			if ($data_type=="uint32") { $values = array_chunk($recData, 4); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
+			if ($data_type=="string") { $scaled_value = PhpType::bytes2string($recData); } 
+
+			//echo '<br>'.$name.': '.$scaled_value.' '.$unit_of_measurement.'<br>';
+
+			$meters_item = array('name'=>$name,'value'=>$scaled_value,'unit_of_measurement'=>$unit_of_measurement,'unit_id'=>$unit_id);
+			array_push($modbus_meters,$meters_item);
+
 		}
 		catch (Exception $e) {
 			// Print error information if any
-			echo $modbus;
-			echo $e;
-			exit;
+			$modbus_success = false;
+			//echo $modbus;
+			//echo $e;
+			$modbus_error = $e->getMessage();
+			// end forrach
+			break;
 		}
-		
-
-		if ($data_type=="int16") { $values = array_chunk($recData, 2); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
-		if ($data_type=="uint16") { $values = array_chunk($recData, 2); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
-		if ($data_type=="int32") { $values = array_chunk($recData, 4); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
-		if ($data_type=="uint32") { $values = array_chunk($recData, 4); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
-		if ($data_type=="string") { $scaled_value = PhpType::bytes2string($recData); } 
-
-		//echo '<br>'.$name.': '.$scaled_value.' '.$unit_of_measurement.'<br>';
-
-		$meters_item = array('name'=>$name,'value'=>$scaled_value,'unit_of_measurement'=>$unit_of_measurement);
-		array_push($response_meters,$meters_item);
 
 	}
 
-	$modbus_item = array('name'=>$modbus_name,'url'=>$modbus_url,'protocol'=>$modbus_protocol,'meters'=>$response_meters,'log'=>$modbus);
+	$unixtimestamp = time();
+
+	$modbus_item = array('success'=>$modbus_success,'unixtimestamp'=>$unixtimestamp,'name'=>$modbus_name,'url'=>$modbus_url,'protocol'=>$modbus_protocol,'meters'=>$modbus_meters,'error'=>$modbus_error,'log'=>$modbus);
 	array_push($response['modbus'],$modbus_item);
 
 }	
