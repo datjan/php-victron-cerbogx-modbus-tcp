@@ -41,15 +41,15 @@ foreach($json_setup as $setup) // each modbus api
 			// FC 3
 			$recData = $modbus->readMultipleRegisters($unit_id, $address, 1);
 
-			if ($data_type=="int16") { $values = array_chunk($recData, 2); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
-			if ($data_type=="uint16") { $values = array_chunk($recData, 2); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
-			if ($data_type=="int32") { $values = array_chunk($recData, 4); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
-			if ($data_type=="uint32") { $values = array_chunk($recData, 4); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value * 0.1; } 
+			if ($data_type=="int16") { $values = array_chunk($recData, 2); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value / $scale; } 
+			if ($data_type=="uint16") { $values = array_chunk($recData, 2); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value / $scale; } 
+			if ($data_type=="int32") { $values = array_chunk($recData, 4); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value / $scale; } 
+			if ($data_type=="uint32") { $values = array_chunk($recData, 4); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value / $scale; } 
 			if ($data_type=="string") { $scaled_value = PhpType::bytes2string($recData); } 
 
 			//echo '<br>'.$name.': '.$scaled_value.' '.$unit_of_measurement.'<br>';
 
-			$meters_item = array('name'=>$name,'value'=>$scaled_value,'unit_of_measurement'=>$unit_of_measurement,'unit_id'=>$unit_id);
+			$meters_item = array('name'=>$name,'value'=>$scaled_value,'unit_of_measurement'=>$unit_of_measurement,'unit_id'=>$unit_id,'address'=>$address);
 			array_push($modbus_meters,$meters_item);
 
 		}
