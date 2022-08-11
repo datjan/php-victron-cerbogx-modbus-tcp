@@ -59,7 +59,7 @@ $setup = '
 			"data_type":"uint16",
 			"unit_id":"100",
 			"address":"2901",
-			"scale":"0.1"
+			"scale":"10"
 		},
 		{
 			"name":"Battery state (System)",
