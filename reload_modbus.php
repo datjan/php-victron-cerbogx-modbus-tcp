@@ -39,13 +39,34 @@ foreach($json_setup as $setup) // each modbus api
 
 		try {
 			// FC 3
-			$recData = $modbus->readMultipleRegisters($unit_id, $address, 1);
-
-			if ($data_type=="int16") { $values = array_chunk($recData, 2); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value / $scale; } 
-			if ($data_type=="uint16") { $values = array_chunk($recData, 2); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value / $scale; } 
-			if ($data_type=="int32") { $values = array_chunk($recData, 4); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value / $scale; } 
-			if ($data_type=="uint32") { $values = array_chunk($recData, 4); foreach($values as $bytes) $return_value = PhpType::bytes2signedInt($bytes); $scaled_value = $return_value / $scale; } 
-			if ($data_type=="string") { $scaled_value = PhpType::bytes2string($recData); } 
+			if ($data_type=="int16") { 
+				$recData = $modbus->readMultipleRegisters($unit_id, $address, 1); 
+				$values = array_chunk($recData, 2); 
+				foreach($values as $bytes) { $return_value = PhpType::bytes2signedInt($bytes); }
+				$scaled_value = $return_value / $scale; 
+			} 
+			if ($data_type=="uint16") { 
+				$recData = $modbus->readMultipleRegisters($unit_id, $address, 1); 
+				$values = array_chunk($recData, 2); 
+				foreach($values as $bytes) { $return_value = PhpType::bytes2unsignedInt($bytes); }
+				$scaled_value = $return_value / $scale; 
+			} 
+			if ($data_type=="int32") { 
+				$recData = $modbus->readMultipleRegisters($unit_id, $address, 2); 
+				$values = array_chunk($recData, 2); 
+				foreach($values as $bytes) { $return_value = PhpType::bytes2signedInt($bytes); } 
+				$scaled_value = $return_value / $scale; 
+			} 
+			if ($data_type=="uint32") { 
+				$recData = $modbus->readMultipleRegisters($unit_id, $address, 2); 
+				$values = array_chunk($recData, 2); 
+				foreach($values as $bytes) { $return_value = PhpType::bytes2unsignedInt($bytes, false); } 
+				$scaled_value = $return_value / $scale; 
+			} 
+			if ($data_type=="string") { 
+				$recData = $modbus->readMultipleRegisters($unit_id, $address, 1); 
+				$scaled_value = PhpType::bytes2string($recData); 
+			} 
 
 			//echo '<br>'.$name.': '.$scaled_value.' '.$unit_of_measurement.'<br>';
 
